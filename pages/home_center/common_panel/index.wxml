@@ -7,7 +7,12 @@
 <view class="common-panel-header">
   <view class="common-panel-header-block">
     <view class="common-panel-header-dpName">{{titleItem.name}}</view>
-    <view class="common-panel-header-dpValue">{{titleItem.value}}</view>
+    <block wx:if="{{titleItem.value > 0}}">
+      <view class="common-panel-header-dpValue">开</view>
+    </block> 
+    <block wx:if="{{titleItem.value == 0}}">
+      <view class="common-panel-header-dpValue">关</view>
+    </block> 
   </view>
 </view>
 
@@ -26,10 +31,10 @@
   <block wx:if="{{isRwDpListShow}}">
     <block wx:for="{{rwDpList}}" wx:key="{{item.code}}" wx:for-item="item">
       <block wx:if="{{item.type === 'Boolean'}}">
-        <Boolean model:isChecked="{{item.value}}" dpCode="{{item.code}}" dpName="开关状态" bind:sendDp="sendDp" />
-      </block>
+        <Boolean model:isChecked="{{item.value}}" dpCode="{{item.code}}" dpName="{{item.name}}" bind:sendDp="sendDp" />
+      </block> 
       <block wx:if="{{item.type === 'Integer'}}">
-        <Integer model:value="99" values="{{item.value}}" dpCode="{{item.code}}" dpName="用电量"
+        <Integer model:value="{{item.value}}" values="{{item.values}}" dpCode="{{item.code}}" dpName="{{item.name}}"
           bind:sendDp="sendDp" />
       </block>
       <block wx:if="{{item.type === 'Enum'}}">
@@ -37,5 +42,7 @@
           bind:sendDp="sendDp" />
       </block>
     </block>
+        <Integer model:value="99" values="{{item.values}}" dpCode="{{item.code}}" dpName="本月已使用电量"
+          bind:sendDp="sendDp" />
   </block>
 </view>
